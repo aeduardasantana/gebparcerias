@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gebparcerias.grupoeduardabispo.com.br/sitemap.xml
