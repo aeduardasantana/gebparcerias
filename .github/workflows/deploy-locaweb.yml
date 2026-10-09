@@ -1,0 +1,39 @@
+name: Deploy GEB Parcerias para Locaweb
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gebparcerias-locaweb
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Publicar site na Locaweb
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter arquivos
+        uses: actions/checkout@v4
+      - name: Publicar por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASS }}
+          protocol: ftp
+          port: 21
+          local-dir: ./
+          server-dir: ./public_html/gebparcerias/
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .github/**
+            README.md
+            *.zip
